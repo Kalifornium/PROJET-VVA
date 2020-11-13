@@ -24,6 +24,12 @@ $query = mysqli_query($con, $req);
 
 
 <?php
+if ((isset($_POST['code'])) && (isset($_POST['nom'])) && (isset($_POST['date']))  && (isset($_POST['duree'])) && (isset($_POST['age'])) && (isset($_POST['tarif']))
+  && (isset($_POST['place'])) && (isset($_POST['description'])))
+{
+  if ((!empty($_POST['code'])) && (!empty($_POST['nom'])) && (!empty($_POST['date'])) && (!empty($_POST['duree'])) && (!empty($_POST['age']))
+    && (!empty($_POST['tarif']))  && (!empty($_POST['place']))  && (!empty($_POST['description'])))
+  {
     $con = mysqli_connect("localhost","root","root","gacti");
     $today = date("y.m.d");
     $req = "INSERT INTO animation VALUES ('$_POST[code]', '', '$_POST[nom]', '$today', '$_POST[date]', '$_POST[duree]',
@@ -36,10 +42,12 @@ $query = mysqli_query($con, $req);
     {
       echo "<script language=javascript>alert('L enregistrement est ajouté');</script>";
     }
+  }
   else
   {
     $erreur = "<script language=javascript>alert('Un champs est vide');</script>";
   }
+}
 ?>
 
 <html>
