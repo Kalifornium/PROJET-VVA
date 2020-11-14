@@ -3,6 +3,7 @@
 <?php
 include 'header.php';
 include 'function.php';
+date_default_timezone_set('Europe/Paris');
 
 $con = mysqli_connect("localhost","root","root","gacti");
 
@@ -11,6 +12,15 @@ $queryplan = mysqli_query($con, $reqplan);
 
 $reqplan2 = "SELECT DATEACT FROM ACTIVITE";
 $queryplan2 = mysqli_query($con, $reqplan2);
+
+if(isset($_POST['noactivite'])) 
+{
+	$noAct = $_POST['noactivite'];
+	$reqAnnul = "UPDATE ACTIVITE SET DATEANNULEACT = DATE(NOW()) WHERE NOACT = '$noAct' ";
+	
+	if(mysqli_query($con, $reqAnnul))
+		echo "<script language=javascript>alert('Activité n° {$noAct} annulée');</script>";
+}
 
 echo "<form action='' method='POST'>
 <select style='margin-bottom: .5em; margin-top: 1em;' name='act'>
@@ -165,25 +175,6 @@ input[type=text], [type=date]
 	<input type="submit" class="btn btn-outline-success my-2 my-sm-0" value="Annuler l'activité">
 	<input type="text" name="noactivite" onblur="verifchamps(this)">
 	</form>
-
-	<?php if(isset($_POST['noactivite'])) 
-	{
-		$var = $_POST['noactivite'];
-
-		$reqAnnul = "SELECT * FROM ACTIVITE WHERE NOACT = $var";
-		$queryAnnul = mysqli_query($con, $reqAnnul);
-		$resultAnnul = mysqli_fetch_array($queryAnnul);
-
-		$_SESSION['annule'];
-		array_push($_SESSION['annule'], $resultAnnul['NOACT']);
-
-		echo "<script language=javascript>alert('Activité n° {$var} annulée');</script>";
-
-	}
-	
-	var_dump($_SESSION['annule']);
-
-	?>
 
 </body>
 

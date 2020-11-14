@@ -35,19 +35,14 @@
   <th>Prix :</th>
   <th>Heure Début :</th>
   <th>Heure Fin :</th>
-  <th>Date max pour annuler :</th>
+  <th>Date d'annulation :</th>
   <th>Nom responsable :</th>
   <th>Prénom responsable :</th>
   </tr>";
-  
-  for($i = 0; $i < count($_SESSION['annule']); $i++)
-  {
-    $annul = $_SESSION['annule'][$i];
-    $req = "SELECT * FROM ANIMATION AN, ACTIVITE A WHERE AN.CODEANIM = A.CODEANIM AND NOACT NOT IN ('$annul') ORDER BY A.NOACT";
-  }
 
+  $req = 'SELECT * FROM ANIMATION AN, ACTIVITE A WHERE AN.CODEANIM = A.CODEANIM AND DATEANNULEACT IS NULL ORDER BY A.NOACT';
   $query = mysqli_query($con, $req);
-  
+
   while($result = mysqli_fetch_array($query))
   {
     if (isset($_POST['anim']))
@@ -122,4 +117,4 @@
     echo '<a href="editactivite.php"><input type="button"style="margin-left: .5em;" class="btn btn-outline-success" value="Modifier une activité"></a></span>';
   }
 
-  ?>
+?>
