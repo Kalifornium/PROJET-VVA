@@ -60,6 +60,7 @@ input[type=text], [type=date]
 </style>
 
 <?php
+
 	if ((!empty($_POST['noact'])) && (!empty($_POST['code'])) && (!empty($_POST['etatact'])) && (!empty($_POST['date']))
 				&& (!empty($_POST['heurerdv'])) && (!empty($_POST['tarif']))  && (!empty($_POST['hrdebut']))  && (!empty($_POST['hrfin']))
 				&& (!empty($_POST['dateannule'])) && (!empty($_POST['nom'])) && (!empty($_POST['prenom'])))
@@ -100,6 +101,7 @@ input[type=text], [type=date]
 			echo "<script language=javascript>alert('Modification réussie');</script>";
 		}
 	}
+
 ?>
 
 <!-- Remplissage automatique des champs -->
@@ -151,7 +153,7 @@ input[type=text], [type=date]
 					<a>Prénom responsable :</a>
 					<input type="text" name="prenom" onblur="verifchamps(this)" value="<?php echo $result["PRENOMRESP"]; ?>"><br>
 
-					<input type="submit" class="btn btn-outline-success my-2 my-sm-0" value="Modifier une activité">
+					<input type="submit" class="btn btn-outline-success my-2 my-sm-0" value="Modifier l'activité">
 				</form>
 
 				<?php
@@ -159,6 +161,30 @@ input[type=text], [type=date]
 		}
 	} ?>
 
-	<a href="activite.php">Retour aux activités</a>
+	<form method="POST" action="editactivite.php">
+	<input type="submit" class="btn btn-outline-success my-2 my-sm-0" value="Annuler l'activité">
+	<input type="text" name="noactivite" onblur="verifchamps(this)">
+	</form>
+
+	<?php if(isset($_POST['noactivite'])) 
+	{
+		$var = $_POST['noactivite'];
+
+		$reqAnnul = "SELECT * FROM ACTIVITE WHERE NOACT = $var";
+		$queryAnnul = mysqli_query($con, $reqAnnul);
+		$resultAnnul = mysqli_fetch_array($queryAnnul);
+
+		$_SESSION['annule'];
+		array_push($_SESSION['annule'], $resultAnnul['NOACT']);
+
+		echo "<script language=javascript>alert('Activité n° {$var} annulée');</script>";
+
+	}
+	
+	var_dump($_SESSION['annule']);
+
+	?>
 
 </body>
+
+

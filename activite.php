@@ -4,8 +4,6 @@
   include 'function.php';
 
   $con = mysqli_connect("localhost","root","root","gacti");
-  $req = "SELECT * FROM ANIMATION AN, ACTIVITE A WHERE AN.CODEANIM = A.CODEANIM ORDER BY AN.CODEANIM";
-  $query = mysqli_query($con, $req);
 
   ini_set('display_errors','on');
 
@@ -41,8 +39,17 @@
   <th>Nom responsable :</th>
   <th>Prénom responsable :</th>
   </tr>";
+  
+  for($i = 0; $i < count($_SESSION['annule']); $i++)
+  {
+    $annul = $_SESSION['annule'][$i];
+    $req = "SELECT * FROM ANIMATION AN, ACTIVITE A WHERE AN.CODEANIM = A.CODEANIM AND NOACT NOT IN ('$annul') ORDER BY A.NOACT";
+  }
 
-  while($result = mysqli_fetch_array($query)){
+  $query = mysqli_query($con, $req);
+  
+  while($result = mysqli_fetch_array($query))
+  {
     if (isset($_POST['anim']))
     {
       if($result['NOMANIM'] == $_POST['anim'])
@@ -61,13 +68,16 @@
         <td>{$result['DATEANNULEACT']}</td>
         <td>{$result['NOMRESP']}</td>
         <td>{$result['PRENOMRESP']}</td>";
-        if($result['CODEETATACT'] == "FE")
+        if(permission("us"))
         {
-          echo "<td>Activité fermée</td>";
-        }
-        else
-        {
-          estInscrit($result['NOACT']);
+          if($result['CODEETATACT'] == "FE")
+          {
+            echo "<td>Activité fermée</td>";
+          }
+          else
+          {
+            estInscrit($result['NOACT']);
+          }
         }
         echo "</tr>";
       }
@@ -88,13 +98,16 @@
       <td>{$result['DATEANNULEACT']}</td>
       <td>{$result['NOMRESP']}</td>
       <td>{$result['PRENOMRESP']}</td>";
-      if($result['CODEETATACT'] == "FE")
+      if(permission("us"))
       {
-        echo "<td>Activité fermée</td>";
-      }
-      else
-      {
-        estInscrit($result['NOACT']);
+        if($result['CODEETATACT'] == "FE")
+        {
+          echo "<td>Activité fermée</td>";
+        }
+        else
+        {
+          estInscrit($result['NOACT']);
+        }
       }
       echo "</tr>";
     }
@@ -102,9 +115,8 @@
 
   echo "</table>";
 
-  if(isset($_SESSION['username']))
+  if(permission("en") || permission("ad"))
   {
-    $user = $_SESSION['username'];
     echo '<br><form method="post" action="addactivite.php"><span>';
     echo '<input type="submit" class="btn btn-outline-success" value="Enregistrer une nouvelle activité"></form>';
     echo '<a href="editactivite.php"><input type="button"style="margin-left: .5em;" class="btn btn-outline-success" value="Modifier une activité"></a></span>';

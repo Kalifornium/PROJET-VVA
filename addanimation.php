@@ -7,11 +7,13 @@ $query = mysqli_query($con, $req);
 ?>
 <meta charset="utf-8">
 <style>
-  body{
+  body
+  {
     margin-left: 1em;
     margin-right: 1em;
   }
-  input[type=text], [type=date] {
+  input[type=text], [type=date] 
+  {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;

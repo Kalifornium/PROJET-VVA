@@ -16,6 +16,21 @@ function estInscrit($ligne)
   else echo "<td style='text-decoration: none;'><a href='#'>Se désinscrire</a></td>";
 }
 
+function permission($string)
+{
+  if(isset($_SESSION['username']))
+  {
+    $user = $_SESSION['username'];
+    $con = mysqli_connect("localhost","root","root","gacti");
+    $req = "SELECT * FROM COMPTE WHERE USER = '$user'";
+    $query = mysqli_query($con, $req);
+    $result = mysqli_fetch_array($query);
+    $var = $string;
+    if($result['TYPEPROFIL'] == $var)
+      return true;
+  }
+}
+
 ?>
 
 <script type="text/javascript">
