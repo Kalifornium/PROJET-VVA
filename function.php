@@ -31,6 +31,18 @@ function permission($string)
   }
 }
 
+function verifDate($date)
+{
+  $con = mysqli_connect("localhost","root","root","gacti");
+  $req = "SELECT * FROM ACTIVITE WHERE DATEACT = $date";
+  $query = mysqli_query($con, $req);
+  $res = mysqli_fetch_array($query);
+  if(mysqli_num_rows($res) == 0)
+    return true;
+  else
+    return false;
+}
+
 ?>
 
 <script type="text/javascript">

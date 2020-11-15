@@ -73,7 +73,7 @@ input[type=text], [type=date]
 
 	if ((!empty($_POST['noact'])) && (!empty($_POST['code'])) && (!empty($_POST['etatact'])) && (!empty($_POST['date']))
 				&& (!empty($_POST['heurerdv'])) && (!empty($_POST['tarif']))  && (!empty($_POST['hrdebut']))  && (!empty($_POST['hrfin']))
-				&& (!empty($_POST['dateannule'])) && (!empty($_POST['nom'])) && (!empty($_POST['prenom'])))
+				&& (!empty($_POST['nom'])) && (!empty($_POST['prenom'])))
 	{
 		$con = mysqli_connect("localhost","root","root","gacti");
 		$noact = $_POST['noact'];
@@ -88,29 +88,34 @@ input[type=text], [type=date]
 		$nom = $_POST['nom'];
 		$prenom = $_POST['prenom'];
 
-		$req = "SELECT * FROM ACTIVITE WHERE CODEANIM = $code, DATEACT = $date";
-		$query = mysqli_query($con, $req);
-		$bool1 = mysqli_fetch_array($query);
-		if(!$bool1)
+		$req = "SELECT * FROM ACTIVITE WHERE CODEANIM = $code AND DATEACT = '$date' ";
+		if(mysqli_query($con, $req))
 		{
-			$req = "UPDATE activite SET NOACT = '$noact', CODEANIM = '$code', CODEETATACT = '$etatact', DATEACT = '$date',
-							HRRDVACT = '$heurerdv', PRIXACT = '$tarif', HRDEBUTACT = '$hrdebut', HRFINACT = '$hrfin',
-							DATEANNULEACT = '$dateannule', NOMRESP = '$nom', PRENOMRESP = '$prenom' WHERE CODEANIM = '$code' AND NOACT = '$noact' ";
+			if(empty($_POST['dateannule']))
+				$req = "UPDATE activite SET NOACT = '$noact', CODEANIM = '$code', CODEETATACT = '$etatact', DATEACT = '$date',
+						HRRDVACT = '$heurerdv', PRIXACT = '$tarif', HRDEBUTACT = '$hrdebut', HRFINACT = '$hrfin',
+						DATEANNULEACT = NULL, NOMRESP = '$nom', PRENOMRESP = '$prenom' WHERE CODEANIM = '$code' AND NOACT = '$noact' ";
+						
+			else
+				$req = "UPDATE activite SET NOACT = '$noact', CODEANIM = '$code', CODEETATACT = '$etatact', DATEACT = '$date',
+						HRRDVACT = '$heurerdv', PRIXACT = '$tarif', HRDEBUTACT = '$hrdebut', HRFINACT = '$hrfin',
+						DATEANNULEACT = '$dateannule', NOMRESP = '$nom', PRENOMRESP = '$prenom' WHERE CODEANIM = '$code' AND NOACT = '$noact' ";
 		}
 		else
 		{
 			echo "<script language=javascript>alert('Impossible de modifier l activité, la date est déja prise !!');</script>";
 		}
 
-		if (!mysqli_query($con,$req))
-		{
-			echo "<script language=javascript>alert('Impossible de modifier l activité');</script>";
-		}
-		else
+		if (mysqli_query($con,$req))
 		{
 			echo "<script language=javascript>alert('Modification réussie');</script>";
 		}
+		else
+		{
+			echo "<script language=javascript>alert('Impossible de modifier l activité');</script>";
+		}
 	}
+
 
 ?>
 
@@ -154,7 +159,7 @@ input[type=text], [type=date]
 					<a>Heure fin :</a>
 					<input type="text" name="hrfin" onblur="verifchamps(this)" value="<?php echo $result["HRFINACT"]; ?>"><br>
 
-					<a>Date max pour annuler :</a>
+					<a>Date d'annulation :</a>
 					<input type="text" name="dateannule" onblur="verifchamps(this)" value="<?php echo $result["DATEANNULEACT"]; ?>"><br>
 
 					<a>Nom responsable :</a>
