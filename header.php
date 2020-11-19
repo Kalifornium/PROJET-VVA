@@ -1,4 +1,6 @@
-<?php session_start(); ?>
+<?php session_start(); 
+include 'function.php'; ?>
+
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
 <head>
@@ -8,7 +10,7 @@
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">GACTI</a>
+    <a class="navbar-brand" href="accueil.php">GACTI</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
@@ -23,6 +25,10 @@
 
         <li class="nav-item">
           <a class="nav-link" href="activite.php">Planning des activités</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="listeidentifiant.php"><?php if(permission("ad")) echo "Accéder aux identifiants" ?></a>
         </li>
 
         <?php if(isset($_SESSION['username'])){ $user = $_SESSION['username']; ?>

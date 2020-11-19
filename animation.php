@@ -2,7 +2,6 @@
 <body style="margin-left: 1em; margin-right: 1em;">
 <?php
 include 'header.php';
-include 'function.php';
 $con = mysqli_connect("localhost","root","root","gacti");
 $req = "SELECT CODEANIM, NOMANIM, DATEVALIDITEANIM, DUREEANIM, LIMITEAGE, TARIFANIM, NBREPLACEANIM, DESCRIPTANIM FROM ANIMATION ORDER BY CODEANIM";
 $query = mysqli_query($con, $req);
@@ -19,8 +18,8 @@ echo "<br><table border='1' style='width: 100%; text-align:center;'>
     <th>Description :</th>
   </tr>";
 
-  while($result = mysqli_fetch_array($query)){
-
+  while($result = mysqli_fetch_array($query))
+  {
     echo "<tr>
       <td>{$result['CODEANIM']}</td>
       <td>".strtoupper($result['NOMANIM'])."</a></td>

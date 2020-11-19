@@ -10,10 +10,13 @@ function estInscrit($ligne)
   $con = mysqli_connect("localhost","root","root","gacti");
   $req = "SELECT * FROM INSCRIPTION WHERE NOACT = '$ligne' AND USER = '$user' ";
   $query = mysqli_query($con, $req);
-  $result = mysqli_fetch_array($query);
 
-  if(mysqli_num_rows($query) == 0) echo "<td><a href='inscriptionactivite.php'>S'inscrire</a></td>";
-  else echo "<td style='text-decoration: none;'><a href='#'>Se désinscrire</a></td>";
+  if(mysqli_num_rows($query) == 0) 
+    return false;
+    //echo "<td><a href='inscription.php'>S'inscrire</a></td>";
+  else 
+    return true;
+    //echo "<td style='text-decoration: none;'><a href='#'>Se désinscrire</a></td>";
 }
 
 function permission($string)
