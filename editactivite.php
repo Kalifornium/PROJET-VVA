@@ -3,7 +3,6 @@
 
 /* Importation de la navbar et des fonctions stockées */
 include 'header.php';
-include 'function.php';
 
 /* Définition de la timezone (obligatoire sinon bug) */
 date_default_timezone_set('Europe/Paris');
