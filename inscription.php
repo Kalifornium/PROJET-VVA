@@ -12,6 +12,7 @@ var_dump($noact);
 
 $req = "INSERT INTO INSCRIPTION VALUES('', '$user', $noact, DATE(NOW()), NULL)";
 $query = mysqli_query($con, $req);
+var_dump($query);
 
 //header('location:activite.php')
 

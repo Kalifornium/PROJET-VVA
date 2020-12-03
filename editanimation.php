@@ -2,7 +2,6 @@
 
 <?php
 include 'header.php';
-include 'function.php';
 
 ini_set('display_errors','on');
 
@@ -58,7 +57,7 @@ input[type=text], [type=date]
 	$age = $_POST['age'];
 	$tarif = $_POST['tarif'];
 	$place = $_POST['place'];
-	$description = $_POST['description'];
+	$description = htmlspecialchars($_POST['description'], ENT_QUOTES);
 
 	$req = "UPDATE animation SET NOMANIM = '$nom', DATEVALIDITEANIM = '$date', DUREEANIM = '$duree', LIMITEAGE = '$age',
 							TARIFANIM = '$tarif', NBREPLACEANIM = '$place', DESCRIPTANIM = '$description' WHERE CODEANIM = '$code' ";
@@ -66,6 +65,7 @@ input[type=text], [type=date]
 		if (!mysqli_query($con,$req))
 		{
 			echo "<script language=javascript>alert('Impossible de modifier l animation');</script>";
+			var_dump($req);
 		}
 		else
 		{
