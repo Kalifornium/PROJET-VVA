@@ -76,6 +76,7 @@
         echo "</tr>";
       }
     }
+
     else
     {
       echo "<tr>
@@ -95,18 +96,34 @@
       if(permission("us"))
       {
         $_SESSION['noact'] = $result['NOACT'];
-        if($result['CODEETATACT'] == "FE")
+
+        if($result['CODEETATACT'] == "FE") // Si le code l'activité est fermée
+        {
           echo "<td>Activité fermée</td>";
-        else if (estInscrit($result['NOACT'])) // Se désinscrire
+        }
+
+        else if (estInscrit($result['NOACT'])) // Sinon si l'activité est ouverte et qu'on est déja inscrit => Se désinscrire
         {
           echo "<td style='text-decoration: none;'><a href='desinscription.php?act=$_SESSION[noact]'>Se désinscrire</a></td>";
         }
-        else  // S'inscrire
-        {
-          echo "<td><a href='inscription.php?act=$_SESSION[noact]'>S'inscrire</a></td>";
+
+        else  // Et si l'activité est ouverte et que l'on souhaite s'inscrire => S'inscrire
+        {  
+          if(verifDateActivite($_SESSION['noact'], $_SESSION['username'])) // Si la date de l'activité est bien comprise dans la période de séjour du vacancier => Afficher lien d'inscription
+          {
+            echo "<td><a href='inscription.php?act=$_SESSION[noact]'>S'inscrire</a></td>";
+          }
         }
       }
       echo "</tr>";
+    }
+  }
+
+  if (isset($_GET['alert'])) 
+  {
+    if($_GET['alert'] == "good")
+    {
+      echo "<script language=javascript>alert('Inscription réussie');</script>";
     }
   }
 

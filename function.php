@@ -45,6 +45,21 @@ function verifDate($date)
     return false;
 }
 
+function verifDateActivite($noact, $user)
+{
+  $con = mysqli_connect("localhost","root","root","gacti");
+  $requete = "SELECT * FROM COMPTE C, ACTIVITE A WHERE A.NOACT = $noact AND C.USER = '$user' ";
+  $execrequete = mysqli_query($con, $requete);
+  $resultat = mysqli_fetch_array($execrequete);
+  $dateact = $resultat['DATEACT'];
+  $datedebutvac = $resultat['DATEDEBSEJOUR'];
+  $datefinvac = $resultat['DATEFINSEJOUR'];
+  if($dateact >= $datedebutvac && $dateact <= $datefinvac)
+    return true;
+  else
+    return false;
+}
+
 ?>
 
 <script type="text/javascript">

@@ -14,6 +14,6 @@ $req = "DELETE FROM INSCRIPTION WHERE USER = '$user' AND NOACT = $noact";
 $query = mysqli_query($con, $req);
 var_dump($query);
 
-//header('location:activite.php')
+header('location:activite.php')
 
 ?>
