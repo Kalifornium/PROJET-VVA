@@ -6,7 +6,7 @@ date_default_timezone_set('Europe/Paris');
 
 $con = mysqli_connect("localhost","root","root","gacti");
 $user = $_SESSION['username'];
-$noact = $_SESSION['noact'];
+$noact = $_GET['act'];
 var_dump($user);
 var_dump($noact);
 

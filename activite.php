@@ -97,36 +97,13 @@
         $_SESSION['noact'] = $result['NOACT'];
         if($result['CODEETATACT'] == "FE")
           echo "<td>Activité fermée</td>";
-        else if (estInscrit($result['NOACT'])) // desinscription
+        else if (estInscrit($result['NOACT'])) // Se désinscrire
         {
-          echo "<td style='text-decoration: none;'><a href='activite.php?desinscription=test'>Se désinscrire</a></td>";
-          if(isset($_GET['desinscription']))
-          {
-            $user = $_SESSION['username'];
-            $noact = (int)$result['NOACT'];
-            $reqDesinscrire = "DELETE FROM INSCRIPTION WHERE USER = '$user' AND NOACT = $noact";
-            $queryDesinscrire = mysqli_query($con, $reqDesinscrire);
-            //header("Refresh:0");
-
-            var_dump($user);
-            var_dump($noact);
-          }
+          echo "<td style='text-decoration: none;'><a href='desinscription.php?act=$_SESSION[noact]'>Se désinscrire</a></td>";
         }
-        else  // s'inscrire
+        else  // S'inscrire
         {
-          echo "<td><a href='activite.php?inscription=test'>S'inscrire</a></td>";
-          if(isset($_GET['inscription']))
-          {
-            $user = $_SESSION['username'];
-            $noact = (int)$result['NOACT'];
-            $reqDesinscrire = "INSERT INTO INSCRIPTION(USER,NOACT,DATEINSCRIP,DATEANNULE) VALUES('$user', $noact, DATE(NOW()), NULL)";
-            $queryDesinscrire = mysqli_query($con, $reqDesinscrire);
-            //header("Refresh:0");
-
-            var_dump($user);
-            var_dump($noact);
-
-          }
+          echo "<td><a href='inscription.php?act=$_SESSION[noact]'>S'inscrire</a></td>";
         }
       }
       echo "</tr>";
