@@ -23,13 +23,19 @@ include 'function.php'; ?>
           <a class="nav-link" href="animation.php">Animation</a>
         </li>
 
+        <?php if(permission("en")) echo '
+        <li class="nav-item">
+          <a class="nav-link" href="listeinscrits.php"> Liste des inscrits </a>
+        </li> '; ?>
+
         <li class="nav-item">
           <a class="nav-link" href="activite.php">Planning des activités</a>
         </li>
 
+        <?php if(permission("en") || permission("ad")) echo '
         <li class="nav-item">
-          <a class="nav-link" href="listeidentifiant.php"><?php if(permission("ad")) echo "Accéder aux identifiants" ?></a>
-        </li>
+          <a class="nav-link" href="listeidentifiant.php"> Accéder aux identifiants </a>
+        </li> '; ?>
 
         <?php if(isset($_SESSION['username'])){ $user = $_SESSION['username']; ?>
         <li class="nav-item">
